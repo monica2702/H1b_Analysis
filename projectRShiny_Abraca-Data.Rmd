@@ -2,7 +2,11 @@
 title: "projectRShiny_Abraca-Data"
 author: "Monica and Harsh"
 date: "April 7, 2019"
-output: pdf_document
+output:
+  pdf_document:
+    df_print: paged
+  html_document:
+    df_print: paged
 ---
 
 ```{r setup, include=FALSE}
@@ -620,9 +624,20 @@ Pred_wo_Emp <- function(soc,wage,state){#Fn for prediction WITHOUT Employer
 
 ###The UI of our Shiny App has a Side Bar Panel and a Main Panel.
 
+###The side-bar has following components:
+1. SelectizeInput: It fetches data from "Employer_Names"
+2. CheckBoxGroupInput: It fetches data from "Case_Status"
+3. InteractionSlider: The slider fetches data from Salary range. The Slider range changes with change in the employer name. It shows range of Salary provided by that Employer. 
 
 
-```{r}
+###The Mainpanel of the App has 3 Tabs:
+1. Analytics
+2. Visualization
+3. Prediction
+
+
+
+```{r mappImage1,screenshot.force = TRUE}
 shinyUI(fluidPage(    
   
   # Give the page a title
@@ -648,7 +663,7 @@ shinyUI(fluidPage(
       ),
       hr(),
       
-      #Slide input for range of Salaries
+      #Slide input for range of Salaries provided by the employer
       uiOutput("interaction_slider"),
       
       hr(),
@@ -658,7 +673,7 @@ shinyUI(fluidPage(
       
     ),
     
-    # Create a spot for the barplot
+    # Mainpanel of the App
     mainPanel(
       tabsetPanel(
         
@@ -706,8 +721,10 @@ shinyUI(fluidPage(
 
 ##SERVER
 
+###The Server for the App renders plots and visualization for the App. 
 
-```{r}
+
+```{r mappImage,screenshot.force = TRUE}
 shinyServer(function(input, output) {
   output$interaction_slider <- renderUI({
     compData <- computeData(h1b,input$status,input$employer)
@@ -824,34 +841,7 @@ shinyServer(function(input, output) {
 }
 
 )
-
-
 ```
 
-```{r}
 
-```
 
-```{r}
-
-```
-
-```{r}
-
-```
-
-```{r}
-
-```
-
-```{r}
-
-```
-
-```{r}
-
-```
-
-```{r}
-
-```
