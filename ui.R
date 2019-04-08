@@ -7,28 +7,25 @@
 #    http://shiny.rstudio.com/
 #
 
-library(shiny)
-
 shinyUI(fluidPage(    
   
-  # Give the page a title
   titlePanel("H1B Filings from 2011-2016"),
   
-  # Generate a row with a sidebar
   sidebarLayout(      
     
-    # Define the sidebar with one input
     sidebarPanel(
       
       #First Drop-down Input of Employers
       # selectInput("employer", "Employer: ", 
       #             choices=employerNames),
-      selectizeInput("employer", "Employer: ", 
-                  choices=employerNames,selected=NULL,multiple=FALSE),
+      selectizeInput("employer", label = h4("Employer: "),
+                                            choices=employerNames,
+                                            selected="BURGER KING CORPORATION",
+                                            multiple=FALSE),
       hr(),
       
       #Second - Check box group output of Case Status
-      checkboxGroupInput("status", label = h3("Status of Application: "), 
+      checkboxGroupInput("status", label = h4("Status of Application: "), 
                          choices = caseStatus, selected = caseStatus
                          
       ),
@@ -48,16 +45,16 @@ shinyUI(fluidPage(
     mainPanel(
       tabsetPanel(
         
-        tabPanel("Statistical",
+        tabPanel("Analytics",
           plotOutput("yearPlot",hover = hoverOpts("plotHover")),
           column(width = 5,verbatimTextOutput("debug")),
           column(width = 5,verbatimTextOutput("hoverText")),
-          column(12,plotOutput("jobPiePLot")),
+          column(12, plotOutput("jobPiePLot")),
           column(12,
                  dataTableOutput('year_table')
           )
         ),
-        tabPanel("GIS",verbatimTextOutput("testText"),
+        tabPanel("Visualization",verbatimTextOutput("testText"),
                  fluidPage(
                    plotOutput("heatMap")
                  ),

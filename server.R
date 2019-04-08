@@ -15,7 +15,7 @@ shinyServer(function(input, output) {
     minSal <- min(compData$PREVAILING_WAGE)
     maxSal <- max(compData$PREVAILING_WAGE)
     
-    sliderInput("salary","Select Range:", 
+    sliderInput("salary",label = h4("Salary Range: "), 
                 min = minSal,
                 max = maxSal,
                 value = c(minSal,maxSal))
@@ -30,20 +30,26 @@ shinyServer(function(input, output) {
     
     plotedData <<- plotData(h1b,input$status,input$employer,input$salary[1],
                            input$salary[2])
-    years <<- row.names(plotedData)
-    compData <<- computeData(h1b,input$status,input$employer,input$salary[1],
-                            input$salary[2])
+    # years <<- row.names(plotedData)
+    # compData <<- computeData(h1b,input$status,input$employer,input$salary[1],
+    #                         input$salary[2])
     # View(compData)
-    if(is.table(plotedData) & nrow(plotedData) != 0){
+    if(is.table(plotedData) & nrow(plotedData) != 0 & length(names(plotedData)) != 0){
+      years <<- row.names(plotedData)
+      compData <<- computeData(h1b,input$status,input$employer,input$salary[1],
+                               input$salary[2])
       output$debug <- renderText({
         "Result Computed"
       })
-      return(barplot(plotedData))
+      return(barplot(plotedData,col = "pink", main ="Year Wise Count of Applicants",
+                     xlab = "Year",
+                     ylab = "Number of Applicants"))
       } else {
       output$debug <- renderText({
         "No value available"
       })
-      return(table(0,0))
+      print("returning empty table")
+      return(barplot(table(0)))
     }
     
   })
@@ -68,7 +74,7 @@ shinyServer(function(input, output) {
             pageLength = 5
           )
         )
-        return(paste("Val: ",plotedData[1]))
+        return(paste("Val: ", plotedData[1]))
       }
       output$year_table <- renderDataTable(
         dataForUIFrame(compData,years[hoverData]),
@@ -82,7 +88,7 @@ shinyServer(function(input, output) {
             jobPieData(
               compData,
               years[hoverData]
-              ))
+              ), col = rainbow(10) )
           )
           }
         )
@@ -90,7 +96,7 @@ shinyServer(function(input, output) {
       
     }
   })
-  output$testText <- renderText("This is text")
+  output$testText <- renderText("GIS Representation of Total Filing in US States")
   
   ### prediction codes
   pRes <- eventReactive(input$predict, {
