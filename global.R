@@ -6,8 +6,7 @@ library(rpart)
 library(ggplot2)
 library(usmap)
 library(plotly)
-library(shinydashboard)
-library(flexdashboard)
+
 source("helperFunctions.R")
 source("mapCodes.R")
 source("predict.R")
@@ -16,3 +15,10 @@ loadData()
 initData()
 loadFitWithEMp(h1b)
 loadFitNoEMp(h1b)
+
+
+
+
+
+library(shinydashboard)
+library(flexdashboard)

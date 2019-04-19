@@ -30,10 +30,6 @@ shinyServer(function(input, output) {
     
     plotedData <<- plotData(h1b,input$status,input$employer,input$salary[1],
                            input$salary[2])
-    # years <<- row.names(plotedData)
-    # compData <<- computeData(h1b,input$status,input$employer,input$salary[1],
-    #                         input$salary[2])
-    # View(compData)
     if(is.table(plotedData) & nrow(plotedData) != 0 & length(names(plotedData)) != 0){
       years <<- row.names(plotedData)
       compData <<- computeData(h1b,input$status,input$employer,input$salary[1],
