@@ -8,7 +8,7 @@ library(usmap)
 library(plotly)
 library(shinydashboard)
 library(flexdashboard)
-source("helperFunctions.r")
+source("helperFunctions.R")
 source("mapCodes.R")
 source("predict.R")
 

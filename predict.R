@@ -1,31 +1,3 @@
-# h1b
-# h1bPredict <- h1b[,c(2,3,4,5,7)]
-# h1bPredict <- mutate(h1bPredict, CASE_STATUS = ifelse (
-#   CASE_STATUS %in% c("CERTIFIED","CERTIFIED-WITHDRAWN"),1,0))
-# View(h1bPredict)
-# 
-# fit <- rpart(CASE_STATUS~.,data=h1bPredict)
-# typeof(fit)
-# saveRDS(fit,"./predictionData/fitness.rds")
-# 
-# 
-# sample <- sample_n(h1bPredict,10)
-# sample
-# prediction <- predict(fit,sample)
-# prediction
-# 
-# 
-# 
-# rFit <- readRDS("./predictionData/fitness.rds")
-# prediction1 <- predict(rFit,sample)
-# prediction1
-
-#"EMPLOYER_NAME"   "SOC_NAME"        "JOB_TITLE"       "PREVAILING_WAGE"
-
-
-###############################################################################################################################
-
-
 
 loadFitWithEMp <- function(h1bData){
   if(file.exists("./predictionData/fitE.Rds")){
@@ -66,9 +38,7 @@ saveFittingModel <- function(fitModel , name){
 
 
 # 
-Fitting_w_Emp <- function(H1data){ #Fn for prediction model WITH the Employer Name
-  # data <-  read_csv("h1b_kaggle.csv")
-  # data<-cSplit(data, "WORKSITE", ",", fixed = FALSE)
+Fitting_w_Emp <- function(H1data){ 
   h1data <- H1data
   names(h1data) <- c("ID",
                    "Case_Status",
@@ -87,7 +57,7 @@ Fitting_w_Emp <- function(H1data){ #Fn for prediction model WITH the Employer Na
   
   dataNew <-  h1data[,c(2,3,4,7,11)] %>%
     mutate(Case_Status=ifelse(
-      Case_Status %in% c("CERTIFIED","CERTIFIED-WITHDRAWN"),1,0)) %>%
+      Case_Status %in% c("CERTIFIED"),1,0)) %>%
     filter(!is.na('Wage_Year'))
   
   
@@ -99,9 +69,7 @@ Fitting_w_Emp <- function(H1data){ #Fn for prediction model WITH the Employer Na
 
 
 
-Fitting_wo_Emp <- function(h1data){ #Fn for prediction model WITHOUT the Employer Name
-  # data <-  read_csv("h1b_kaggle.csv")
-  # data<-cSplit(data, "WORKSITE", ",", fixed = FALSE)
+Fitting_wo_Emp <- function(h1data){ 
   names(h1data) <- c("ID",
                    "Case_Status",
                    "Employer_Name",
@@ -117,7 +85,7 @@ Fitting_wo_Emp <- function(h1data){ #Fn for prediction model WITHOUT the Employe
 
   dataNew <-  h1data[,c(2,4,7,11)] %>%
     mutate(Case_Status=ifelse(
-      Case_Status %in% c("CERTIFIED","CERTIFIED-WITHDRAWN"),1,0)) %>%
+      Case_Status %in% c("CERTIFIED"),1,0)) %>%
     filter(!is.na('Wage_Year'))
   
   
@@ -128,12 +96,8 @@ Fitting_wo_Emp <- function(h1data){ #Fn for prediction model WITHOUT the Employe
 
 predict_chances <- function(emp=NULL,soc,wage,state){
   if(is.null(emp) | emp =="NA"){
-    # print("No employee")
-    # cat(" soc: ",soc," wage: ",wage," state: ",state)
     return(Pred_wo_Emp(soc,wage,state))
   }else{
-    # print("With employee")
-    cat("emp: ",emp, " soc: ",soc," wage: ",wage," state: ",state)
     return(Pred_w_Emp(emp,soc,wage,state))
   }
 }
