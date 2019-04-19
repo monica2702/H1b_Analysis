@@ -3,8 +3,7 @@ title: "projectRShiny_Abraca-Data"
 author: "Monica"
 date: "April 7, 2019"
 output:
-  md_document:
-    variant: markdown_github
+  pdf_document
 ---
 
 ```{r setup, include=FALSE}
