@@ -15,9 +15,7 @@ shinyUI(fluidPage(
     
     sidebarPanel(
       
-      #First Drop-down Input of Employers
-      # selectInput("employer", "Employer: ", 
-      #             choices=employerNames),
+      
       selectizeInput("employer", label = h4("Employer: "),
                                             choices=employerNames,
                                             selected="BURGER KING CORPORATION",
